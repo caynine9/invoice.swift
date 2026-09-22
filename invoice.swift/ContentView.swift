@@ -55,9 +55,10 @@ struct SidebarDetailView: View {
             switch item {
                 case .business:
                     BusinessProfileView()
-
                 case .clients:
                     ClientsView()
+                case .catalog:
+                    CatalogView()
 
                 default:
                 VStack(spacing: 12) {

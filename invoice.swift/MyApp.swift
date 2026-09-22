@@ -8,7 +8,8 @@ import SwiftUI
         }
         .modelContainer(for: [
             BusinessProfile.self,
-            Client.self
+            Client.self,
+            CatalogItem.self
             ]
         )
     }
