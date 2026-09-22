@@ -9,7 +9,9 @@ import SwiftUI
         .modelContainer(for: [
             BusinessProfile.self,
             Client.self,
-            CatalogItem.self
+            CatalogItem.self,
+            Invoice.self,
+            InvoiceLineItem.self
             ]
         )
     }
