@@ -11,7 +11,8 @@ import SwiftUI
             Client.self,
             CatalogItem.self,
             Invoice.self,
-            InvoiceLineItem.self
+            InvoiceLineItem.self,
+            InvoiceNumberSequence.self
             ]
         )
     }
