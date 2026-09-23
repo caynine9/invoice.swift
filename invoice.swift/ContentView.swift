@@ -59,6 +59,8 @@ struct SidebarDetailView: View {
                     ClientsView()
                 case .catalog:
                     CatalogView()
+                case .invoices:
+                    InvoicesView()
 
                 default:
                 VStack(spacing: 12) {
