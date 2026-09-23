@@ -16,7 +16,7 @@ struct InvoiceLineItemEditorRow: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            TextField("Description", text. $item.itemDescription)
+            TextField("Description", text: $item.itemDescription)
             
             HStack {
                 TextField(
@@ -25,10 +25,10 @@ struct InvoiceLineItemEditorRow: View {
                     format: .number
                 )
                 .frame(minWidth: 75)
-
+                
                 TextField("Unit", text: $item.unit)
                     .frame(minWidth: 75)
-
+                
                 TextField(
                     "Unit price",
                     value: $item.unitPrice,
@@ -36,10 +36,10 @@ struct InvoiceLineItemEditorRow: View {
                 )
                 .frame(minWidth: 120)
             }
-
+            
             HStack {
                 Spacer()
-
+                
                 Button(role: .destructive, action: onDelete) {
                     Label("Remove Item", systemImage: "trash")
                 }
@@ -50,6 +50,5 @@ struct InvoiceLineItemEditorRow: View {
         .onChange(of: item.quantity) { _, _ in onChanged() }
         .onChange(of: item.unit) { _, _ in onChanged() }
         .onChange(of: item.unitPrice) { _, _ in onChanged() }
-        }
     }
 }
