@@ -73,37 +73,55 @@ struct InvoiceEditorView: View {
                     Text(invoice.invoiceNumber)
                         .textSelection(.enabled)
                 }
-
+                
                 DatePicker(
                     "Issue date",
                     selection: $invoice.issueDate,
                     displayedComponents: .date
                 )
-
+                
                 DatePicker(
                     "Due date",
                     selection: $invoice.dueDate,
                     displayedComponents: .date
                 )
-
+                
                 TextField(
                     "Discount (%)",
                     value: $invoice.discountPercentage,
                     format: .number
                 )
-
+                
                 TextField(
                     "Tax (%)",
                     value: $invoice.taxPercentage,
                     format: .number
                 )
-
+                
                 LabeledContent("Currency") {
                     Text(invoice.currencyCode)
                 }
-
+                
                 LabeledContent("Status") {
-                    Text(invoice.statusRawValue.capitalized)
+                    Text(
+                    InvoiceStatusService
+                        .effectiveStatus(for: invoice)
+                        .rawValue
+                        .capitalized
+                    )
+                }
+            }
+            
+            statusActions
+            
+            if let paidDate = invoice.paidDate {
+                LabeledContent("Paid date") {
+                    Text(
+                        paidDate.formatted(
+                            date: .abbreviated,
+                            time: .omitted
+                        )
+                    )
                 }
             }
 
@@ -253,6 +271,49 @@ struct InvoiceEditorView: View {
         } catch {
             errorMessage =
                 "Could not recalculate invoice totals: \(error.localizedDescription)"
+            showingError = true
+        }
+    }
+    
+    private var statusActions: some View {
+        Menu {
+            ForEach(
+                InvoiceStatusService.allowedTransitions(for: invoice),
+                id: \.rawValue
+            ) { status in
+                Button(statusActionTitle(for: status)) {
+                    changeStatus(to: status)
+                }
+            }
+        } label: {
+            Label("Change Status", systemImage: "arrow.left.arrow.right")
+        }
+    }
+    
+    private func statusActionTitle(for status: InvoiceStatus) -> String {
+        switch status {
+        case.draft:
+            return "Return to Draft"
+        case.unpaid:
+            return "Mark as Unpaid"
+        case.paid:
+            return "Mark as Paid"
+        case.overdue:
+            return "Mark as Overdue"
+        case.cancelled:
+            return "Cancel Invoice"
+        }
+    }
+    
+    private func changeStatus(to status: InvoiceStatus) {
+        do {
+            try InvoiceStatusService.transition(
+                invoice,
+                to: status
+            )
+            saveChanges()
+        } catch {
+            errorMessage = error.localizedDescription
             showingError = true
         }
     }

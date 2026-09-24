@@ -46,9 +46,12 @@ struct InvoiceListRow: View {
                     )
                 )
                 
-                Text(invoice.statusRawValue.capitalized)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                Text(
+                    InvoiceStatusService
+                        .effectiveStatus(for: invoice)
+                        .rawValue
+                        .capitalized
+                )
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
