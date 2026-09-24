@@ -52,7 +52,7 @@ struct InvoicesView: View {
             } else {
                 ForEach(invoices, id: \.id) { invoice in
                     NavigationLink {
-                        InvoiceListRow(invoice: invoice)
+                        InvoiceEditorView(invoice: invoice)
                     } label: {
                         InvoiceListRow(invoice: invoice)
                     }
