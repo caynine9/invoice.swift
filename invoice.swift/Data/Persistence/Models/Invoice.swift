@@ -106,4 +106,47 @@ final class Invoice {
         self.updatedAt = updatedAt
     }
 
+    init(
+        duplicating source: Invoice,
+        invoiceNumber: String,
+        issueDate: Date,
+        dueDate: Date,
+        now: Date
+    ) {
+        self.id = UUID()
+        self.invoiceNumber = invoiceNumber
+        self.issueDate = issueDate
+        self.dueDate = dueDate
+        self.currencyCode = source.currencyCode
+        self.statusRawValue = InvoiceStatus.draft.rawValue
+
+        self.businessNameSnapshot = source.businessNameSnapshot
+        self.businessEmailSnapshot = source.businessEmailSnapshot
+        self.businessPhoneSnapshot = source.businessPhoneSnapshot
+        self.businessAddressSnapshot = source.businessAddressSnapshot
+        self.businessTaxIDSnapshot = source.businessTaxIDSnapshot
+
+        self.clientDisplayNameSnapshot = source.clientDisplayNameSnapshot
+        self.clientCompanyNameSnapshot = source.clientCompanyNameSnapshot
+        self.clientEmailSnapshot = source.clientEmailSnapshot
+        self.clientPhoneSnapshot = source.clientPhoneSnapshot
+        self.clientBillingAddressSnapshot = source.clientBillingAddressSnapshot
+        self.clientTaxIDSnapshot = source.clientTaxIDSnapshot
+
+        self.discountPercentage = source.discountPercentage
+        self.taxPercentage = source.taxPercentage
+
+        self.subtotal = .zero
+        self.discountAmount = .zero
+        self.taxableAmount = .zero
+        self.taxAmount = .zero
+        self.total = .zero
+
+        self.notes = source.notes
+        self.paymentDetails = source.paymentDetails
+        self.paidDate = nil
+        self.lineItems = []
+        self.createdAt = now
+        self.updatedAt = now
+    }
 }
